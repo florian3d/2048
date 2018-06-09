@@ -62,24 +62,22 @@ while not _break_:
                 except Exception as ex:
                     pass
 
-            if event.key == pygame.K_n: # n
+            if event.key == pygame.K_n: # RESTART
                 game.restart()
-            if event.key == pygame.K_h: # h
+            if event.key == pygame.K_h: # HELP
                     help = not help
-            if event.key == pygame.K_t: # 
-                    game.test()
 
             if not game.game_over and not game.won:
                 
-                if event.key == pygame.K_a: # a
+                if event.key == pygame.K_a: # LEFT
                     game.left()
-                if event.key == pygame.K_d: # d
+                if event.key == pygame.K_d: # RIGHT
                     game.right()
-                if event.key == pygame.K_w: # w
+                if event.key == pygame.K_w: # UP
                     game.up()
-                if event.key == pygame.K_s: # s
+                if event.key == pygame.K_s: # DOWN
                     game.down()
-                if event.key == pygame.K_r: # r undo
+                if event.key == pygame.K_r: # UNDO
                     if not game.undo:
                         game.do_undo()
 
@@ -101,7 +99,6 @@ while not _break_:
 
         if el > 0:
             tcl = colors[cl] if game.last_gen and row == game.last_gen[0] and col == game.last_gen[1] else col_white
-            # tcol = (255, 255, 0) if (game.g and row == game.g[0] and col == game.g[1]) else (255, 255, 255)
             num = game_font.render(str(el) , True, tcl)
             w, h = num.get_width()//2, num.get_height()//2
             window.blit(num, (x+offset+67-w, y+offset+67-h))
@@ -117,4 +114,4 @@ while not _break_:
         window.blit(won_surf, (315-game_over_surf.get_width()//2, 280))
 
     pygame.display.update()
-    clock.tick(15)
+    clock.tick(15) # frames per seconds

@@ -61,7 +61,7 @@ class Board():
             '''return random position with zero value'''
             z = [i for i,x in enumerate(self.board) if x==0]
             p = z[randrange(0, len(z))]
-            return p//self.cols, p%self.rows
+            return p//self.cols, p%self.cols
 
         
         def test(self):

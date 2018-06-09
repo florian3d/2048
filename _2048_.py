@@ -1,22 +1,29 @@
+
 '''2048 game module'''
 from random import random
 from _board_ import Board
 
 class Game():
-    
+    '''2048 game class'''
     def __init__(self):
         '''game object creation'''
-        self.game_init()
-
         self.high_score = 0
         self.high_score_moves = 0
-
+        self.act = 0
+        self.bck = 1
+        self.board = None
+        self.game_over = False
+        self.won = False
+        self.last_gen = None
+        self.undo = True
+        self.game_init()
         try:
             with open('2048.hs', 'r') as f:
-                s = f.read()
-                hs, ms = s.split(';')
-                self.high_score, self.high_score_moves = int(hs), int(ms)
-        except Exception:
+                data = f.read()
+                if data:
+                    h_s, hs_ms = data.split(';')
+                    self.high_score, self.high_score_moves = int(h_s), int(hs_ms)
+        except IOError:
             pass
 
     def game_init(self):
@@ -28,7 +35,7 @@ class Game():
         self.bck = 1
         self.board = self.boards[self.act]
         self.undo = False
-        self.g = None
+        self.last_gen = None
         self.game_over = False
         self.won = False
         self.history = []
@@ -49,7 +56,7 @@ class Game():
 
     def move(self, tmp, score, concat):
         '''internal function called after move'''
-        self.g = None
+        self.last_gen = None
         self.score += score
         if self.score > self.high_score:
             self.high_score = self.score
@@ -66,29 +73,30 @@ class Game():
             self.is_game_over()
         
 
-    def gen(self, v=0):
+    def gen(self, val=0):
+        '''generates random value'''
         if not self.boards[self.act].is_full():
-            r, c = self.board.get_zero_random_pos()
-            if not v:
-                v = 2 if random() > .1 else 4
-            self.boards[self.act].set_val(r, c, v)
-            self.g = (r, c, v)
+            row, col = self.board.get_zero_random_pos()
+            if not val:
+                val = 2 if random() > .1 else 4
+            self.boards[self.act].set_val(row, col, val)
+            self.last_gen = (row, col, val)
 
 
     def is_game_over(self):
         '''check if there are no movement'''
         game_over = True
 
-        for r in range(3):
-            for c in range(3):
-                v0 = self.board.get_val(r, c)
-                vr = self.board.get_val(r, c+1)
-                vd = self.board.get_val(r+1, c)
+        for row in range(3):
+            for col in range(3):
+                val0 = self.board.get_val(row, col)
+                val_r = self.board.get_val(row, col+1)
+                val_d = self.board.get_val(row+1, col)
 
-                if v0 == vr or v0 == vd:
+                if val0 == val_r or val0 == val_d:
                     game_over = False
 
-            if self.board.get_val(3, r) == self.board.get_val(3, r+1) or self.board.get_val(r, 3) == self.board.get_val(r+1, 3):
+            if self.board.get_val(3, row) == self.board.get_val(3, row+1) or self.board.get_val(row, 3) == self.board.get_val(row+1, 3):
                 game_over = False
         
         self.game_over = game_over

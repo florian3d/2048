@@ -49,7 +49,7 @@ while not _break_:
     for event in pygame.event.get():
        
         if event.type == pygame.QUIT:
-            _break_ = False
+            _break_ = True
         elif event.type == pygame.KEYDOWN:
 
             # print(event)

@@ -9,5 +9,5 @@ R:  UNDO<br/>
 N:  RESTART<br/>
 H:  HELP<br/>
 X:  EXIT<br/>
-<br/><br/>
-to be continued...
+<br/>
+![image](https://user-images.githubusercontent.com/29359337/158018235-7f7c79ff-de2b-4d85-86f1-f34c7a921a1e.png)
